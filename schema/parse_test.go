@@ -170,8 +170,8 @@ func TestSchemaIndex_Error3(t *testing.T) {
 var schemaIndexVal5 = `
 age     : int @index(int) .
 name    : string @index(exact) @count .
-address : string @index(term) .
-friend  : uid @reverse @count .
+address : string @index(term) @async .
+friend  : uid @reverse @count @async .
 `
 
 func TestSchemaIndexCustom(t *testing.T) {
@@ -195,6 +195,7 @@ func TestSchemaIndexCustom(t *testing.T) {
 			Tokenizer: []string{"term"},
 			Directive: intern.SchemaUpdate_INDEX,
 			Explicit:  true,
+			Async:     true,
 		}},
 		{"age", &intern.SchemaUpdate{
 			Predicate: "age",
@@ -209,6 +210,7 @@ func TestSchemaIndexCustom(t *testing.T) {
 			Directive: intern.SchemaUpdate_REVERSE,
 			Count:     true,
 			Explicit:  true,
+			Async:     true,
 		}},
 	})
 	require.True(t, State().IsIndexed("name"))
